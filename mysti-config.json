@@ -1,0 +1,59 @@
+{
+  "$schema": "https://raw.githubusercontent.com/DeepMyst/Mysti/main/config-schema.json",
+  "version": "1.0",
+  "agents": {
+    "claude": {
+      "enabled": true,
+      "cli": "claude",
+      "model": "claude-opus-4-6",
+      "skills": ["superpowers"],
+      "persona": "architect",
+      "priority": 1
+    },
+    "codex": {
+      "enabled": true,
+      "cli": "codex",
+      "model": "gpt-5.2-codex",
+      "reasoning": "high",
+      "persona": "critic",
+      "priority": 2
+    }
+  },
+  "brainstorm": {
+    "defaultMode": "debate",
+    "autoConverge": true,
+    "maxRounds": 10,
+    "tokenBudget": {
+      "warning": 8000,
+      "limit": 12000
+    }
+  },
+  "tokenOptimization": {
+    "enableContextCompaction": true,
+    "skillLazyLoading": true,
+    "compressHistory": true,
+    "maxContextTokens": 150000
+  },
+  "workflows": {
+    "designReview": {
+      "agents": ["claude", "codex"],
+      "mode": "debate",
+      "prompt": "Review the design document from security and performance perspectives. Identify critical issues and trade-offs."
+    },
+    "codeReview": {
+      "agents": ["claude", "codex"],
+      "mode": "red-team",
+      "prompt": "Review code for bugs, edge cases, and security vulnerabilities. Challenge each assumption."
+    },
+    "brainstorm": {
+      "agents": ["claude", "codex"],
+      "mode": "perspectives",
+      "prompt": "Explore creative solutions. One agent focuses on innovation, the other on risk mitigation."
+    }
+  },
+  "shortcuts": {
+    "designReview": "@claude @codex Review design doc with Debate mode",
+    "codeReview": "@claude @codex Red-team review this code",
+    "brainstorm": "@claude @codex Brainstorm approaches for this feature"
+  }
+}
