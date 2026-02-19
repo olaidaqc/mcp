@@ -2,6 +2,8 @@
 import os
 import json
 
+from mcp_manager.aihub_rules import is_core_file, is_large_file
+
 
 def get_default_roots(user_home):
     user_home = Path(user_home)
@@ -29,3 +31,14 @@ def load_plan(root):
     if not path.exists():
         return {"auto": [], "confirm": []}
     return json.loads(path.read_text(encoding="utf-8"))
+
+
+def split_plan(plan, rules):
+    auto, confirm = [], []
+    for item in plan:
+        path = item["path"]
+        if is_core_file(path, rules) or is_large_file(path, rules):
+            confirm.append(item)
+        else:
+            auto.append(item)
+    return auto, confirm
