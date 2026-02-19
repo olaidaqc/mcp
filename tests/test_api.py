@@ -59,6 +59,7 @@ def test_index_has_buttons():
     client = TestClient(app)
     resp = client.get("/")
     assert "Scan" in resp.text
+    assert "Confirm" in resp.text
 
 
 def load_tests(loader, tests, pattern):
