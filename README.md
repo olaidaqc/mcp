@@ -133,3 +133,23 @@ ss  # 一键同步
 
 - 2026-02-19: 添加 Mysti 集成 + Token 优化
 - 2026-02-18: 初始配置 + Voice Support
+
+## MCP 管理工具 (TUI)
+
+运行：
+```powershell
+# 在项目根目录
+python mcp_manager.py
+```
+
+可选：安装 Textual 获得可点击按钮界面
+```powershell
+pip install textual
+```
+
+说明：
+- 没有 Textual 会自动降级为文本菜单（仍可执行命令）
+- 命令定义在 `mcp_manager/config/commands.json`
+- 日志默认写入 `%USERPROFILE%\my-skills\runtime.log`
+- 强制降级：`set MCP_MANAGER_NO_TEXTUAL=1`
+- 自定义日志路径：`set MCP_MANAGER_LOG=...`
