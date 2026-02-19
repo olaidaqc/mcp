@@ -61,9 +61,18 @@ def run_scan(env=None):
     roots = _parse_roots(env, str(Path.home()))
     files = []
     for root in roots:
-        for p in Path(root).rglob("*"):
-            if p.is_file():
-                files.append(p)
+        root_path = Path(root)
+        if not root_path.exists():
+            continue
+        try:
+            for p in root_path.rglob("*"):
+                try:
+                    if p.is_file():
+                        files.append(p)
+                except OSError:
+                    continue
+        except OSError:
+            continue
     plan = build_plan(files, rules, hub)
     auto, confirm = split_plan(plan, rules)
     data = {"auto": auto, "confirm": confirm}
