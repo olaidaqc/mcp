@@ -5,6 +5,7 @@ import json
 from mcp_manager.aihub_rules import is_core_file, is_large_file, load_rules
 from mcp_manager.aihub_structure import ensure_structure
 from mcp_manager.aihub_scan import build_plan
+from mcp_manager.aihub_apply import apply_plan
 
 
 def get_default_roots(user_home):
@@ -68,3 +69,8 @@ def run_scan(env=None):
     data = {"auto": auto, "confirm": confirm}
     save_plan(hub, data)
     return data
+
+
+def apply_auto(root, plan):
+    apply_plan(plan["auto"], root)
+    return len(plan["auto"])
