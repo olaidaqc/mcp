@@ -15,6 +15,7 @@ def test_apply_confirm_moves_selected(tmp_path=None):
     moved = apply_confirm(tmp_path, plan, [str(src)])
     assert (tmp_path / "Models" / "model.gguf").exists()
     assert moved == 1
+    assert plan["confirm"] == []
 
 
 def load_tests(loader, tests, pattern):

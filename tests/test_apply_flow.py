@@ -15,6 +15,7 @@ def test_apply_auto_moves_files(tmp_path=None):
     moved = apply_auto(tmp_path, plan)
     assert (tmp_path / "Tools" / "tool.zip").exists()
     assert moved == 1
+    assert plan["auto"] == []
 
 
 def load_tests(loader, tests, pattern):
