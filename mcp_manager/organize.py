@@ -74,3 +74,9 @@ def run_scan(env=None):
 def apply_auto(root, plan):
     apply_plan(plan["auto"], root)
     return len(plan["auto"])
+
+
+def apply_confirm(root, plan, selected_paths):
+    selected = [p for p in plan["confirm"] if p["path"] in set(selected_paths)]
+    apply_plan(selected, root)
+    return len(selected)
