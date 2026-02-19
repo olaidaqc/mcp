@@ -1,0 +1,38 @@
+﻿{
+  "status_checks": [
+    {
+      "label": "MCP 配置",
+      "command": "Get-Content $env:USERPROFILE\\.claude\\mcp-config.json"
+    },
+    {
+      "label": "Skill 目录",
+      "command": "Get-ChildItem -Force $env:USERPROFILE\\my-skills\\superpowers"
+    },
+    {
+      "label": "Git 状态",
+      "command": "git -C $env:USERPROFILE\\my-skills status"
+    },
+    {
+      "label": "MCP 启动性",
+      "command": "npx -y @modelcontextprotocol/server-filesystem --help"
+    }
+  ],
+  "actions": [
+    {
+      "label": "一键检测",
+      "command": "$env:USERPROFILE\\my-skills\\auto-check-notify.bat"
+    },
+    {
+      "label": "同步配置",
+      "command": "$env:USERPROFILE\\my-skills\\sync-and-push.sh"
+    },
+    {
+      "label": "编辑配置",
+      "command": "code $env:USERPROFILE\\.claude\\mcp-config.json"
+    },
+    {
+      "label": "打开项目",
+      "command": "code $env:USERPROFILE\\my-skills"
+    }
+  ]
+}
