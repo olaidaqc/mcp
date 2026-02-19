@@ -23,6 +23,12 @@ def test_tools_endpoint():
     assert resp.status_code == 200
 
 
+def test_plan_endpoint():
+    client = TestClient(app)
+    resp = client.get("/api/plan")
+    assert resp.status_code == 200
+
+
 def load_tests(loader, tests, pattern):
     module = sys.modules[__name__]
     for name, obj in vars(module).items():
