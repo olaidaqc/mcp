@@ -133,3 +133,21 @@ ss  # 一键同步
 
 - 2026-02-19: 添加 Mysti 集成 + Token 优化
 - 2026-02-18: 初始配置 + Voice Support
+
+## MCP 管理网页 (Web UI)
+
+启动：
+```powershell
+cd web_mcp_manager
+start-web.bat
+```
+
+访问：
+```
+http://127.0.0.1:8765
+```
+
+说明：
+- 页面包含：状态、快捷操作、实时日志
+- 命令定义在 `web_mcp_manager/config/commands.json`
+- 日志写入 `%USERPROFILE%\my-skills\runtime.log`
