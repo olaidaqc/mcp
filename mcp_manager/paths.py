@@ -6,3 +6,4 @@ from pathlib import Path
 class ProjectPaths:
     repo_root: Path = Path(__file__).resolve().parents[1]
     user_home: Path = Path.home()
+    runtime_log: Path = Path(__file__).resolve().parents[1] / "runtime.log"
