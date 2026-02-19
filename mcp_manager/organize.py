@@ -2,7 +2,9 @@
 import os
 import json
 
-from mcp_manager.aihub_rules import is_core_file, is_large_file
+from mcp_manager.aihub_rules import is_core_file, is_large_file, load_rules
+from mcp_manager.aihub_structure import ensure_structure
+from mcp_manager.aihub_scan import build_plan
 
 
 def get_default_roots(user_home):
@@ -42,3 +44,27 @@ def split_plan(plan, rules):
         else:
             auto.append(item)
     return auto, confirm
+
+
+def _parse_roots(env, user_home):
+    if env.get("AI_SCAN_ROOTS"):
+        return env["AI_SCAN_ROOTS"].split(";")
+    return get_default_roots(user_home)
+
+
+def run_scan(env=None):
+    env = env or os.environ
+    hub = get_ai_hub_root()
+    ensure_structure(hub)
+    rules = load_rules(hub)
+    roots = _parse_roots(env, str(Path.home()))
+    files = []
+    for root in roots:
+        for p in Path(root).rglob("*"):
+            if p.is_file():
+                files.append(p)
+    plan = build_plan(files, rules, hub)
+    auto, confirm = split_plan(plan, rules)
+    data = {"auto": auto, "confirm": confirm}
+    save_plan(hub, data)
+    return data
