@@ -13,6 +13,13 @@ def test_start_scripts_exist():
     assert Path("start-tui.bat").exists()
 
 
+def test_ai_hub_root_documented():
+    from pathlib import Path
+
+    text = Path("README.md").read_text(encoding="utf-8")
+    assert "AI-Hub" in text
+
+
 import sys
 import unittest
 

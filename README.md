@@ -141,3 +141,8 @@ ss  # 涓€閿悓姝?
 - Web: start-web.bat
 - TUI: start-tui.bat
 
+
+## AI Hub
+Global AI library: C:\\Users\\11918\\AI-Hub
+Run scan: python -m mcp_manager.organize --scan
+
