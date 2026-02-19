@@ -17,6 +17,12 @@ def test_static_index_loads():
     assert resp.status_code == 200
 
 
+def test_tools_endpoint():
+    client = TestClient(app)
+    resp = client.get("/api/tools")
+    assert resp.status_code == 200
+
+
 def load_tests(loader, tests, pattern):
     module = sys.modules[__name__]
     for name, obj in vars(module).items():

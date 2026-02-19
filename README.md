@@ -1,135 +1,143 @@
-# My Skills - AI Workflow 中心
+﻿# MCP Manager
 
-个人 Claude/Codex Skill 管理中心，集成 Mysti 多 Agent 协作 + VSCode 可视化。
+# My Skills - AI Workflow 涓績
 
-## 快速开始
+涓汉 Claude/Codex Skill 绠＄悊涓績锛岄泦鎴?Mysti 澶?Agent 鍗忎綔 + VSCode 鍙鍖栥€?
 
-### 1. 一键配置（自动）
+## 蹇€熷紑濮?
+
+### 1. 涓€閿厤缃紙鑷姩锛?
 
 ```powershell
-# 以管理员身份运行 PowerShell
+# 浠ョ鐞嗗憳韬唤杩愯 PowerShell
 Set-ExecutionPolicy Bypass -Scope Process
 & "$env:USERPROFILE\my-skills\setup-workflow.ps1"
 ```
 
-### 2. 配置完成后的快捷命令
+### 2. 閰嶇疆瀹屾垚鍚庣殑蹇嵎鍛戒护
 
-| 命令 | 作用 |
+| 鍛戒护 | 浣滅敤 |
 |------|------|
-| `ss` | 同步 skills 到 Codex + GitHub |
-| `sd` | 进入开发目录 |
-| `sh` | 进入 skill 主页 |
-| `mystistart` | 启动 Mysti |
+| `ss` | 鍚屾 skills 鍒?Codex + GitHub |
+| `sd` | 杩涘叆寮€鍙戠洰褰?|
+| `sh` | 杩涘叆 skill 涓婚〉 |
+| `mystistart` | 鍚姩 Mysti |
 
-### 3. VSCode 快捷键
+### 3. VSCode 蹇嵎閿?
 
-| 快捷键 | 功能 |
+| 蹇嵎閿?| 鍔熻兘 |
 |--------|------|
-| `Ctrl+Shift+S` | 一键 commit & push |
-| `Ctrl+Shift+T` | 打开任务看板 (Todo Tree) |
-| `Ctrl+Shift+M` | 打开 Mysti |
+| `Ctrl+Shift+S` | 涓€閿?commit & push |
+| `Ctrl+Shift+T` | 鎵撳紑浠诲姟鐪嬫澘 (Todo Tree) |
+| `Ctrl+Shift+M` | 鎵撳紑 Mysti |
 | `Ctrl+Shift+B` | Brainstorm Mode |
 
-## 目录结构
+## 鐩綍缁撴瀯
 
 ```
 my-skills/
-├── superpowers/              # Superpowers 技能集
-│   ├── brainstorming/        # 语音版头脑风暴
-│   │   ├── SKILL.md         # 完整版
-│   │   └── SKILL-OPTIMIZED.md  # Token 优化版
-│   └── ...
-├── mysti-config.json         # Mysti 多 Agent 配置
-├── setup-workflow.ps1        # 一键配置脚本
-├── sync-and-push.sh          # 同步脚本
-├── token-monitor.md          # Token 预算监控
-└── README.md                 # 本文件
+鈹溾攢鈹€ superpowers/              # Superpowers 鎶€鑳介泦
+鈹?  鈹溾攢鈹€ brainstorming/        # 璇煶鐗堝ご鑴戦鏆?
+鈹?  鈹?  鈹溾攢鈹€ SKILL.md         # 瀹屾暣鐗?
+鈹?  鈹?  鈹斺攢鈹€ SKILL-OPTIMIZED.md  # Token 浼樺寲鐗?
+鈹?  鈹斺攢鈹€ ...
+鈹溾攢鈹€ mysti-config.json         # Mysti 澶?Agent 閰嶇疆
+鈹溾攢鈹€ setup-workflow.ps1        # 涓€閿厤缃剼鏈?
+鈹溾攢鈹€ sync-and-push.sh          # 鍚屾鑴氭湰
+鈹溾攢鈹€ token-monitor.md          # Token 棰勭畻鐩戞帶
+鈹斺攢鈹€ README.md                 # 鏈枃浠?
 ```
 
-## 工作流程
+## 宸ヤ綔娴佺▼
 
-### 日常开发
+### 鏃ュ父寮€鍙?
 
 ```bash
-# 1. 进入开发目录
+# 1. 杩涘叆寮€鍙戠洰褰?
 sd
 
-# 2. 在 VSCode 中编辑 skill
+# 2. 鍦?VSCode 涓紪杈?skill
 
-# 3. 一键同步
+# 3. 涓€閿悓姝?
 ss
 ```
 
-### 使用 Mysti 多 Agent
+### 浣跨敤 Mysti 澶?Agent
 
 ```bash
-# 启动 Mysti
+# 鍚姩 Mysti
 mystistart
 
-# 在 VSCode 中:
+# 鍦?VSCode 涓?
 @claude @codex Review this design
-# 或按 Ctrl+Shift+B 启动 Brainstorm Mode
+# 鎴栨寜 Ctrl+Shift+B 鍚姩 Brainstorm Mode
 ```
 
-## Token 优化
+## Token 浼樺寲
 
-### 自动节省 Token 的机制
+### 鑷姩鑺傜渷 Token 鐨勬満鍒?
 
-1. **Mysti 内置**: 上下文压缩、Skill 懒加载、历史压缩
-2. **配置预算**: 8000 警告，12000 限制
-3. **优化版 Skill**: 简单任务用精简版
+1. **Mysti 鍐呯疆**: 涓婁笅鏂囧帇缂┿€丼kill 鎳掑姞杞姐€佸巻鍙插帇缂?
+2. **閰嶇疆棰勭畻**: 8000 璀﹀憡锛?2000 闄愬埗
+3. **浼樺寲鐗?Skill**: 绠€鍗曚换鍔＄敤绮剧畝鐗?
 
-### 何时使用优化版
+### 浣曟椂浣跨敤浼樺寲鐗?
 
 ```markdown
-简单任务 / Token 紧张 → SKILL-OPTIMIZED.md
-复杂设计 / 需要深度 → SKILL.md (完整版)
+绠€鍗曚换鍔?/ Token 绱у紶 鈫?SKILL-OPTIMIZED.md
+澶嶆潅璁捐 / 闇€瑕佹繁搴?鈫?SKILL.md (瀹屾暣鐗?
 ```
 
-## 集成说明
+## 闆嗘垚璇存槑
 
-### Mysti + Superpowers 关系
+### Mysti + Superpowers 鍏崇郴
 
 ```
-Mysti (VS Code 扩展)
-    ↓ 调用
-Claude Code CLI → 读取 ~/.claude/ 配置
-    ↓ 使用
-Superpowers Skill (本项目)
+Mysti (VS Code 鎵╁睍)
+    鈫?璋冪敤
+Claude Code CLI 鈫?璇诲彇 ~/.claude/ 閰嶇疆
+    鈫?浣跨敤
+Superpowers Skill (鏈」鐩?
 ```
 
-**Mysti 不会替换你的 skill，而是增强调用方式。**
+**Mysti 涓嶄細鏇挎崲浣犵殑 skill锛岃€屾槸澧炲己璋冪敤鏂瑰紡銆?*
 
-## 同步到 GitHub
+## 鍚屾鍒?GitHub
 
-首次配置：
+棣栨閰嶇疆锛?
 ```bash
 cd ~/my-skills
 gh repo create my-skills --public
 git push -u origin main
 ```
 
-后续同步：
+鍚庣画鍚屾锛?
 ```bash
-ss  # 一键同步
+ss  # 涓€閿悓姝?
 ```
 
-## 系统要求
+## 绯荤粺瑕佹眰
 
 - VSCode 1.85+
 - Claude Code CLI
 - Codex CLI
 - PowerShell 7+ (Windows)
 
-## 故障排除
+## 鏁呴殰鎺掗櫎
 
-| 问题 | 解决 |
+| 闂 | 瑙ｅ喅 |
 |------|------|
-| Mysti 不显示 | 检查 mysti-config.json 路径 |
-| Skill 不生效 | 运行 `ss` 同步 |
-| Token 超支 | 查看 token-monitor.md |
+| Mysti 涓嶆樉绀?| 妫€鏌?mysti-config.json 璺緞 |
+| Skill 涓嶇敓鏁?| 杩愯 `ss` 鍚屾 |
+| Token 瓒呮敮 | 鏌ョ湅 token-monitor.md |
 
-## 更新日志
+## 鏇存柊鏃ュ織
 
-- 2026-02-19: 添加 Mysti 集成 + Token 优化
-- 2026-02-18: 初始配置 + Voice Support
+- 2026-02-19: 娣诲姞 Mysti 闆嗘垚 + Token 浼樺寲
+- 2026-02-18: 鍒濆閰嶇疆 + Voice Support
+
+## Start
+
+- Web: start-web.bat
+- TUI: start-tui.bat
+
