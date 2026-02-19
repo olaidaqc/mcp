@@ -19,6 +19,8 @@ class CommandRunner:
             ["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-Command", command],
             capture_output=True,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             timeout=self.timeout_sec,
         )
         output = (proc.stdout or "") + (proc.stderr or "")
@@ -30,6 +32,8 @@ class CommandRunner:
             stdout=subprocess.PIPE,
             stderr=subprocess.STDOUT,
             text=True,
+            encoding="utf-8",
+            errors="replace",
             bufsize=1,
         )
         output_chunks = []
