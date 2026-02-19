@@ -90,7 +90,6 @@ git commit -m "feat: add plan persistence"
 ### Task 2: Build plan with confirm split
 
 **Files:**
-- Modify: `mcp_manager/aihub_scan.py`
 - Modify: `mcp_manager/organize.py`
 - Create: `tests/test_plan_split.py`
 
@@ -211,6 +210,7 @@ Expected: FAIL with "run_scan not defined"
 ```python
 # mcp_manager/organize.py
 import os
+from pathlib import Path
 from mcp_manager.aihub_structure import ensure_structure
 from mcp_manager.aihub_rules import load_rules
 from mcp_manager.aihub_scan import build_plan
@@ -318,7 +318,72 @@ git add mcp_manager/organize.py tests/test_apply_flow.py
 git commit -m "feat: add apply auto"
 ```
 
-### Task 5: Web endpoints wiring
+### Task 5: Confirm apply flow
+
+**Files:**
+- Modify: `mcp_manager/organize.py`
+- Create: `tests/test_confirm_flow.py`
+
+**Step 1: Write the failing test**
+
+```python
+# tests/test_confirm_flow.py
+import sys
+import unittest
+from pathlib import Path
+
+from mcp_manager.organize import apply_confirm
+
+
+def test_apply_confirm_moves_selected(tmp_path=None):
+    import tempfile
+    if tmp_path is None:
+        tmp_path = Path(tempfile.mkdtemp())
+    src = tmp_path / "model.gguf"
+    src.write_bytes(b"x")
+    plan = {"auto": [], "confirm": [{"path": str(src), "category": "Models"}]}
+    moved = apply_confirm(tmp_path, plan, [str(src)])
+    assert (tmp_path / "Models" / "model.gguf").exists()
+    assert moved == 1
+
+
+def load_tests(loader, tests, pattern):
+    module = sys.modules[__name__]
+    for name, obj in vars(module).items():
+        if name.startswith("test_") and callable(obj):
+            tests.addTest(unittest.FunctionTestCase(obj))
+    return tests
+```
+
+**Step 2: Run test to verify it fails**
+
+Run: `python -m unittest tests/test_confirm_flow.py -v`
+Expected: FAIL with "apply_confirm not defined"
+
+**Step 3: Write minimal implementation**
+
+```python
+# mcp_manager/organize.py
+
+def apply_confirm(root, plan, selected_paths):
+    selected = [p for p in plan["confirm"] if p["path"] in set(selected_paths)]
+    apply_plan(selected, root)
+    return len(selected)
+```
+
+**Step 4: Run test to verify it passes**
+
+Run: `python -m unittest tests/test_confirm_flow.py -v`
+Expected: PASS
+
+**Step 5: Commit**
+
+```bash
+git add mcp_manager/organize.py tests/test_confirm_flow.py
+git commit -m "feat: add confirm apply"
+```
+
+### Task 6: Web endpoints wiring
 
 **Files:**
 - Modify: `web/routes.py`
@@ -344,7 +409,7 @@ Expected: FAIL if endpoint not wired
 
 ```python
 # web/routes.py
-from mcp_manager.organize import run_scan, load_plan, apply_auto
+from mcp_manager.organize import run_scan, load_plan, apply_auto, apply_confirm, get_ai_hub_root
 
 @router.post("/api/scan")
 def scan():
@@ -354,6 +419,12 @@ def scan():
 @router.get("/api/plan")
 def plan():
     return load_plan(get_ai_hub_root())
+
+@router.post("/api/confirm")
+def confirm(payload: dict):
+    plan = load_plan(get_ai_hub_root())
+    moved = apply_confirm(get_ai_hub_root(), plan, payload.get("paths", []))
+    return {"moved": moved}
 ```
 
 **Step 4: Run test to verify it passes**
@@ -368,7 +439,7 @@ git add web/routes.py tests/test_api.py
 git commit -m "feat: wire scan endpoints"
 ```
 
-### Task 6: Web UI buttons
+### Task 7: Web UI buttons
 
 **Files:**
 - Modify: `web/static/index.html`
