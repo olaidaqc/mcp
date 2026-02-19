@@ -29,6 +29,12 @@ def test_plan_endpoint():
     assert resp.status_code == 200
 
 
+def test_index_has_dashboard_title():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "AI Hub" in resp.text
+
+
 def load_tests(loader, tests, pattern):
     module = sys.modules[__name__]
     for name, obj in vars(module).items():
