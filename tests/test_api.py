@@ -55,6 +55,12 @@ def test_confirm_endpoint():
     assert resp.status_code == 200
 
 
+def test_index_has_buttons():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "Scan" in resp.text
+
+
 def load_tests(loader, tests, pattern):
     module = sys.modules[__name__]
     for name, obj in vars(module).items():
