@@ -2,7 +2,7 @@
 import os
 import json
 
-from mcp_manager.aihub_rules import is_core_file, is_large_file, load_rules
+from mcp_manager.aihub_rules import load_rules
 from mcp_manager.aihub_structure import ensure_structure
 from mcp_manager.aihub_scan import build_plan
 from mcp_manager.aihub_apply import apply_plan
@@ -37,14 +37,7 @@ def load_plan(root):
 
 
 def split_plan(plan, rules):
-    auto, confirm = [], []
-    for item in plan:
-        path = item["path"]
-        if is_core_file(path, rules) or is_large_file(path, rules):
-            confirm.append(item)
-        else:
-            auto.append(item)
-    return auto, confirm
+    return [], list(plan)
 
 
 def _parse_roots(env, user_home):
@@ -74,8 +67,7 @@ def run_scan(env=None):
         except OSError:
             continue
     plan = build_plan(files, rules, hub)
-    auto, confirm = split_plan(plan, rules)
-    data = {"auto": auto, "confirm": confirm}
+    data = {"auto": [], "confirm": list(plan)}
     save_plan(hub, data)
     return data
 

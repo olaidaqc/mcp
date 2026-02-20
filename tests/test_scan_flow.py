@@ -16,6 +16,7 @@ def test_run_scan_saves_plan(tmp_path=None):
         "AI_SCAN_ROOTS": str(tmp_path),
     }
     plan = run_scan(env)
+    assert plan["auto"] == []
     assert plan["confirm"][0]["path"].endswith("qwen.gguf")
 
 
