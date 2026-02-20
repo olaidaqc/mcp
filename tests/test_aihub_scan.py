@@ -15,10 +15,18 @@ def test_build_plan_classifies_model_and_doc(tmp_path=None):
     doc.write_text("x", encoding="utf-8")
     rules = {
         "core_exts": [".gguf"],
-        "keywords": ["llama"],
+        "ai_keywords": ["llama"],
+        "doc_keywords": [],
+        "tool_keywords": [],
+        "plugin_keywords": [],
+        "dataset_keywords": [],
+        "code_keywords": [],
+        "exclude_exts": [],
+        "exclude_paths": [],
         "large_threshold_bytes": 1024,
     }
     plan = build_plan([model, doc], rules, tmp_path)
+    assert len(plan) == 2
     assert plan[0]["category"] == "Models"
     assert plan[1]["category"] == "Docs"
 
