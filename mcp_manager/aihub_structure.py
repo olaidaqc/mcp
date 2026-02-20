@@ -1,4 +1,6 @@
-﻿from pathlib import Path
+from pathlib import Path
+
+from mcp_manager.aihub_rules import ensure_rules
 
 CATEGORIES = ["Models", "Tools", "Plugins", "Datasets", "Docs", "Code", "_incoming", "_reports", "_rules"]
 
@@ -21,3 +23,4 @@ def ensure_structure(root):
             readme = path / "README.md"
             if not readme.exists():
                 readme.write_text(README_TEXT[name], encoding="utf-8")
+    ensure_rules(root)
