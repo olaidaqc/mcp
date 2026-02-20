@@ -62,6 +62,12 @@ def test_index_has_buttons():
     assert "Confirm" in resp.text
 
 
+def test_index_has_confirm_only_text():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "Confirm Only" in resp.text
+
+
 def load_tests(loader, tests, pattern):
     module = sys.modules[__name__]
     for name, obj in vars(module).items():

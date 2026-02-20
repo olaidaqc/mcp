@@ -57,7 +57,9 @@ async function confirmSelected() {
 
 window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('scan').addEventListener('click', scan);
-  document.getElementById('apply').addEventListener('click', applyAuto);
+  const applyButton = document.getElementById('apply');
+  applyButton.disabled = true;
+  applyButton.addEventListener('click', applyAuto);
   document.getElementById('confirm').addEventListener('click', confirmSelected);
   refreshPlan();
 });
