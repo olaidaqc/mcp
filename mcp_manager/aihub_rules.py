@@ -1,6 +1,8 @@
 from pathlib import Path
 import json
 
+from mcp_manager.aihub_learn import load_learned
+
 DEFAULT_RULES = {
     "core_exts": [".gguf", ".safetensors", ".bin", ".pth", ".pt", ".ckpt", ".onnx", ".tflite", ".ggml"],
     "exclude_exts": [
@@ -65,7 +67,38 @@ def ensure_rules(root):
 def load_rules(root):
     ensure_rules(root)
     rules_path = Path(root) / "_rules" / "rules.json"
-    return json.loads(rules_path.read_text(encoding="utf-8"))
+    rules = json.loads(rules_path.read_text(encoding="utf-8"))
+    learned = load_learned(root)
+    _merge_learned(rules, learned)
+    return rules
+
+
+def _merge_list(rules, key, values):
+    current = set(rules.get(key, []))
+    current.update(values)
+    rules[key] = sorted(current)
+
+
+def _merge_learned(rules, learned):
+    if not learned:
+        return
+    if learned.get("Tools"):
+        _merge_list(rules, "tool_keywords", learned["Tools"])
+        _merge_list(rules, "ai_keywords", learned["Tools"])
+    if learned.get("Plugins"):
+        _merge_list(rules, "plugin_keywords", learned["Plugins"])
+        _merge_list(rules, "ai_keywords", learned["Plugins"])
+    if learned.get("Datasets"):
+        _merge_list(rules, "dataset_keywords", learned["Datasets"])
+        _merge_list(rules, "ai_keywords", learned["Datasets"])
+    if learned.get("Docs"):
+        _merge_list(rules, "doc_keywords", learned["Docs"])
+        _merge_list(rules, "ai_keywords", learned["Docs"])
+    if learned.get("Code"):
+        _merge_list(rules, "code_keywords", learned["Code"])
+        _merge_list(rules, "ai_keywords", learned["Code"])
+    if learned.get("Models"):
+        _merge_list(rules, "ai_keywords", learned["Models"])
 
 
 def is_core_file(path, rules):

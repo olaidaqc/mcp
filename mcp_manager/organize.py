@@ -6,6 +6,7 @@ from mcp_manager.aihub_rules import load_rules
 from mcp_manager.aihub_structure import ensure_structure
 from mcp_manager.aihub_scan import build_plan
 from mcp_manager.aihub_apply import apply_plan
+from mcp_manager.aihub_learn import learn_from_confirmed
 
 
 def get_default_roots(user_home):
@@ -84,6 +85,7 @@ def apply_confirm(root, plan, selected_paths):
     selected_set = set(selected_paths)
     selected = [p for p in plan["confirm"] if p["path"] in selected_set]
     apply_plan(selected, root)
+    learn_from_confirmed(root, selected)
     plan["confirm"] = [p for p in plan["confirm"] if p["path"] not in selected_set]
     save_plan(root, plan)
     return len(selected)
