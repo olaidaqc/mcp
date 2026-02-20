@@ -1,0 +1,3 @@
+interface:
+  display_name: "AI Hub Confirm-Only"
+  short_description: "Manage AI-Hub confirm-only scans, rules, and restores"
