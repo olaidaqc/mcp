@@ -20,6 +20,13 @@ def test_ai_hub_root_documented():
     assert "AI-Hub" in text
 
 
+def test_ai_only_mode_documented():
+    from pathlib import Path
+
+    text = Path("README.md").read_text(encoding="utf-8")
+    assert "confirm-only" in text.lower()
+
+
 import sys
 import unittest
 

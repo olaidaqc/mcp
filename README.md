@@ -146,3 +146,7 @@ ss  # 涓€閿悓姝?
 Global AI library: C:\\Users\\11918\\AI-Hub
 Run scan: python -m mcp_manager.organize --scan
 
+## AI-Hub Confirm-Only Mode
+AI files require confirmation before moving. Non-AI files are ignored.
+Rules live in C:\\Users\\11918\\AI-Hub\\_rules\\rules.json.
+
