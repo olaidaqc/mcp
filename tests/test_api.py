@@ -68,6 +68,28 @@ def test_index_has_confirm_only_text():
     assert "Confirm Only" in resp.text
 
 
+def test_index_has_confirm_flow_table_headers():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "Category" in resp.text
+    assert "Name" in resp.text
+    assert "Size" in resp.text
+    assert "Family" in resp.text
+
+
+def test_index_has_theme_selector():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "Theme" in resp.text
+
+
+def test_index_has_filter_controls():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "Search" in resp.text
+    assert "Filter" in resp.text
+
+
 def load_tests(loader, tests, pattern):
     module = sys.modules[__name__]
     for name, obj in vars(module).items():

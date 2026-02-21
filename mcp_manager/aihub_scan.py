@@ -83,10 +83,16 @@ def build_plan(files, rules, root):
         if not match:
             continue
         category, family, matched_rules = match
+        size_bytes = 0
+        try:
+            size_bytes = Path(f).stat().st_size
+        except OSError:
+            size_bytes = 0
         plan.append({
             "path": str(f),
             "category": category,
             "family": family,
             "matched_rules": matched_rules,
+            "size_bytes": size_bytes,
         })
     return plan
