@@ -5,19 +5,24 @@ from pathlib import Path
 from mcp_manager.organize import run_scan
 
 
-def test_run_scan_saves_plan(tmp_path=None):
+def test_run_scan_respects_user_home_excludes(tmp_path=None):
     import tempfile
     if tmp_path is None:
         tmp_path = Path(tempfile.mkdtemp())
-    sample = tmp_path / "qwen.gguf"
-    sample.write_bytes(b"x")
+    desktop = tmp_path / "Desktop"
+    (desktop / "claude").mkdir(parents=True, exist_ok=True)
+    (desktop / "claude" / "llama.txt").write_text("llama", encoding="utf-8")
+    (desktop / "keep").mkdir(parents=True, exist_ok=True)
+    (desktop / "keep" / "llama.txt").write_text("llama", encoding="utf-8")
     env = {
         "AI_HUB_ROOT": str(tmp_path),
-        "AI_SCAN_ROOTS": str(tmp_path),
+        "AI_SCAN_ROOTS": str(desktop),
+        "AI_USER_HOME": str(tmp_path),
     }
     plan = run_scan(env)
-    assert plan["auto"] == []
-    assert plan["confirm"][0]["path"].endswith("qwen.gguf")
+    paths = [p["path"].replace("\\", "/") for p in plan["confirm"]]
+    assert any("keep/llama.txt" in p for p in paths)
+    assert all("claude/llama.txt" not in p for p in paths)
 
 
 def load_tests(loader, tests, pattern):

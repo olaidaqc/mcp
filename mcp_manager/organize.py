@@ -7,6 +7,7 @@ from mcp_manager.aihub_structure import ensure_structure
 from mcp_manager.aihub_scan import build_plan
 from mcp_manager.aihub_apply import apply_plan
 from mcp_manager.aihub_learn import learn_from_confirmed
+from mcp_manager.scan_filters import iter_scan_files
 
 
 def get_default_roots(user_home):
@@ -16,8 +17,9 @@ def get_default_roots(user_home):
     return [r for r in roots if r.replace("\\", "/") != exclude]
 
 
-def get_ai_hub_root():
-    return Path(os.environ.get("AI_HUB_ROOT", "C:/Users/11918/AI-Hub"))
+def get_ai_hub_root(env=None):
+    env = env or os.environ
+    return Path(env.get("AI_HUB_ROOT", "C:/Users/11918/AI-Hub"))
 
 
 def _reports_dir(root):
@@ -47,26 +49,20 @@ def _parse_roots(env, user_home):
     return get_default_roots(user_home)
 
 
+def _resolve_user_home(env):
+    if env.get("AI_USER_HOME"):
+        return env["AI_USER_HOME"]
+    return str(Path.home())
+
+
 def run_scan(env=None):
     env = env or os.environ
-    hub = get_ai_hub_root()
+    hub = get_ai_hub_root(env)
     ensure_structure(hub)
     rules = load_rules(hub)
-    roots = _parse_roots(env, str(Path.home()))
-    files = []
-    for root in roots:
-        root_path = Path(root)
-        if not root_path.exists():
-            continue
-        try:
-            for p in root_path.rglob("*"):
-                try:
-                    if p.is_file():
-                        files.append(p)
-                except OSError:
-                    continue
-        except OSError:
-            continue
+    user_home = _resolve_user_home(env)
+    roots = _parse_roots(env, user_home)
+    files = list(iter_scan_files(roots, rules, user_home=Path(user_home)))
     plan = build_plan(files, rules, hub)
     data = {"auto": [], "confirm": list(plan)}
     save_plan(hub, data)
