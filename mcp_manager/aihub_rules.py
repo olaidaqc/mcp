@@ -14,6 +14,19 @@ DEFAULT_RULES = {
         "\\riot games\\", "\\origin games\\", "\\gog galaxy\\",
         "\\program files\\", "\\program files (x86)\\",
     ],
+    "exclude_dir_names": [
+        ".git", "node_modules", "__pycache__", ".venv", "venv",
+        "windows", "program files", "program files (x86)", "programdata",
+        "appdata", "steam", "epic games", "games",
+    ],
+    "exclude_path_fragments": [
+        "desktop/claude",
+    ],
+    "project_markers": [
+        "package.json", "pyproject.toml", "requirements.txt", "pipfile",
+        "cargo.toml", "go.mod", "*.sln", "*.csproj", "pom.xml",
+        "build.gradle", "build.gradle.kts",
+    ],
     "ai_keywords": [
         "llama", "qwen", "mistral", "mixtral", "gemma", "phi", "deepseek",
         "gpt", "chatglm", "baichuan", "yi", "falcon",
