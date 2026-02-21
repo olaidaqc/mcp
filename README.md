@@ -123,6 +123,20 @@ ss  # 涓€閿悓姝?
 - Codex CLI
 - PowerShell 7+ (Windows)
 
+## Auto Startup (Windows)
+
+Register a login task to run one scan + recommendations refresh:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/register-startup-task.ps1
+```
+
+Remove the startup task:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File scripts/unregister-startup-task.ps1
+```
+
 ## 鏁呴殰鎺掗櫎
 
 | 闂 | 瑙ｅ喅 |
