@@ -1,4 +1,5 @@
 import json
+import os
 from datetime import datetime
 from pathlib import Path
 
@@ -33,6 +34,7 @@ def _normalize_repo(item):
 
 def refresh_recommendations(hub_root=None, token=None, fetcher=fetch_github):
     hub_root = Path(hub_root) if hub_root else None
+    token = token or os.environ.get("GITHUB_TOKEN")
     config = _load_config()
     domains = []
     for domain, spec in config.get("domains", {}).items():
