@@ -1,0 +1,37 @@
+{
+  "domains": {
+    "LLM": {
+      "queries": ["llm inference", "large language model", "transformer inference"],
+      "capability_keywords": ["inference", "serving", "quantization"]
+    },
+    "Vision": {
+      "queries": ["computer vision", "object detection", "image segmentation"],
+      "capability_keywords": ["detection", "segmentation", "classification"]
+    },
+    "Audio": {
+      "queries": ["speech recognition", "text to speech", "audio processing"],
+      "capability_keywords": ["asr", "tts", "speech"]
+    },
+    "VectorDB": {
+      "queries": ["vector database", "embedding store"],
+      "capability_keywords": ["vector", "embedding", "search"]
+    },
+    "Workflow": {
+      "queries": ["ai workflow", "agent workflow", "pipeline"],
+      "capability_keywords": ["workflow", "pipeline", "agent"]
+    },
+    "UI": {
+      "queries": ["ai ui", "chat ui", "prompt ui"],
+      "capability_keywords": ["ui", "frontend", "chat"]
+    },
+    "Runtime": {
+      "queries": ["model runtime", "inference engine"],
+      "capability_keywords": ["runtime", "engine", "inference"]
+    },
+    "MCP": {
+      "queries": ["model context protocol", "mcp server"],
+      "capability_keywords": ["mcp", "server", "tooling"]
+    }
+  },
+  "max_results_per_query": 10
+}
