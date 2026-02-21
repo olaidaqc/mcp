@@ -10,15 +10,22 @@
     <div class="app">
       <header class="topbar">
         <div class="brand">
-          <div class="title">AI Hub</div>
-          <div class="subtitle">Confirm Only</div>
+          <div id="title" class="title">AI Hub</div>
+          <div id="subtitle" class="subtitle">Confirm Only</div>
         </div>
         <div class="theme-control">
-          <label for="theme-select">Theme</label>
+          <label id="theme-label" for="theme-select">Theme</label>
           <select id="theme-select">
             <option value="light">Light</option>
             <option value="dark">Dark</option>
             <option value="sand">Sand</option>
+          </select>
+        </div>
+        <div class="lang-control">
+          <label id="lang-label" for="lang-select">Language</label>
+          <select id="lang-select">
+            <option value="en">English</option>
+            <option value="zh">中文</option>
           </select>
         </div>
       </header>
@@ -31,15 +38,15 @@
           <button id="clear-selection">Clear Selection</button>
         </div>
         <div class="filters">
-          <label for="search">Search</label>
+          <label id="search-label" for="search">Search</label>
           <input id="search" type="text" placeholder="Search path or filename" />
-          <label for="filter-category">Category Filter</label>
+          <label id="filter-category-label" for="filter-category">Category Filter</label>
           <select id="filter-category"></select>
-          <label for="filter-family">Family Filter</label>
+          <label id="filter-family-label" for="filter-family">Family Filter</label>
           <select id="filter-family"></select>
-          <label for="size-min">Size Min (MB)</label>
+          <label id="size-min-label" for="size-min">Size Min (MB)</label>
           <input id="size-min" type="number" min="0" step="1" />
-          <label for="size-max">Size Max (MB)</label>
+          <label id="size-max-label" for="size-max">Size Max (MB)</label>
           <input id="size-max" type="number" min="0" step="1" />
         </div>
       </section>
@@ -48,19 +55,19 @@
         <section class="table-panel">
           <div class="panel-header">
             <div class="counts">
-              Total: <span id="count-total">0</span>
-              | Filtered: <span id="count-filtered">0</span>
-              | Selected: <span id="count-selected">0</span>
+              <span id="count-total-label">Total</span>: <span id="count-total">0</span>
+              | <span id="count-filtered-label">Filtered</span>: <span id="count-filtered">0</span>
+              | <span id="count-selected-label">Selected</span>: <span id="count-selected">0</span>
             </div>
           </div>
           <table id="plan-table">
             <thead>
               <tr>
                 <th></th>
-                <th>Category</th>
-                <th>Name</th>
-                <th>Size</th>
-                <th>Family</th>
+                <th id="th-category">Category</th>
+                <th id="th-name">Name</th>
+                <th id="th-size">Size</th>
+                <th id="th-family">Family</th>
               </tr>
             </thead>
             <tbody id="plan-body"></tbody>
@@ -68,18 +75,27 @@
           <div id="empty-state" class="empty">No items to confirm.</div>
         </section>
         <aside class="detail-panel">
-          <h3>Details</h3>
+          <h3 id="detail-title">Details</h3>
           <div id="detail-empty" class="muted">Select a row to see details.</div>
           <div id="detail-content" class="detail hidden">
-            <div><span class="label">Name:</span> <span id="detail-name"></span></div>
-            <div><span class="label">Path:</span> <span id="detail-path"></span></div>
-            <div><span class="label">Category:</span> <span id="detail-category"></span></div>
-            <div><span class="label">Family:</span> <span id="detail-family"></span></div>
-            <div><span class="label">Size:</span> <span id="detail-size"></span></div>
-            <div><span class="label">Matched Rules:</span> <span id="detail-rules"></span></div>
+            <div><span id="label-name" class="label">Name:</span> <span id="detail-name"></span></div>
+            <div><span id="label-path" class="label">Path:</span> <span id="detail-path"></span></div>
+            <div><span id="label-category" class="label">Category:</span> <span id="detail-category"></span></div>
+            <div><span id="label-family" class="label">Family:</span> <span id="detail-family"></span></div>
+            <div><span id="label-size" class="label">Size:</span> <span id="detail-size"></span></div>
+            <div><span id="label-rules" class="label">Matched Rules:</span> <span id="detail-rules"></span></div>
           </div>
         </aside>
       </main>
+
+      <section class="recommend-panel">
+        <div class="panel-header">
+          <div class="panel-title" id="recommend-title">Recommendations</div>
+          <button id="recommend-refresh">Refresh Recommendations</button>
+        </div>
+        <div id="recommend-empty" class="empty">No recommendations yet.</div>
+        <div id="recommendations" class="recommendations"></div>
+      </section>
 
       <footer class="status-bar">
         <div id="status">Status: Ready</div>

@@ -1,6 +1,7 @@
-﻿from fastapi import APIRouter
+from fastapi import APIRouter
 
 from mcp_manager.organize import run_scan, load_plan, apply_auto, apply_confirm, get_ai_hub_root
+from mcp_manager.recommendations import load_recommendations, refresh_recommendations
 
 router = APIRouter()
 
@@ -13,6 +14,16 @@ def tools():
 @router.get("/api/plan")
 def plan():
     return load_plan(get_ai_hub_root())
+
+
+@router.get("/api/recommendations")
+def recommendations():
+    return load_recommendations(get_ai_hub_root())
+
+
+@router.post("/api/recommendations/refresh")
+def refresh():
+    return refresh_recommendations(hub_root=get_ai_hub_root())
 
 
 @router.post("/api/scan")

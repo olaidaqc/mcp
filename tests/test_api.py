@@ -32,6 +32,12 @@ def test_plan_endpoint():
     assert resp.status_code == 200
 
 
+def test_recommendations_endpoint():
+    client = TestClient(app)
+    resp = client.get("/api/recommendations")
+    assert resp.status_code == 200
+
+
 def test_scan_endpoint():
     root = Path(tempfile.mkdtemp())
     sample = root / "demo.gguf"
@@ -81,6 +87,12 @@ def test_index_has_theme_selector():
     client = TestClient(app)
     resp = client.get("/")
     assert "Theme" in resp.text
+
+
+def test_index_has_language_toggle():
+    client = TestClient(app)
+    resp = client.get("/")
+    assert "Language" in resp.text or "语言" in resp.text
 
 
 def test_index_has_filter_controls():
