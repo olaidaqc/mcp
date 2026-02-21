@@ -4,6 +4,12 @@ DOC_EXTS = {".pdf", ".md", ".docx", ".pptx", ".txt"}
 CODE_EXTS = {".py", ".ipynb", ".js", ".ts", ".go", ".rs"}
 TOOL_EXTS = {".exe", ".msi", ".zip", ".7z", ".bat", ".ps1"}
 DATA_EXTS = {".csv", ".parquet", ".jsonl"}
+TEXT_EXTS = {
+    ".txt", ".md", ".json", ".yaml", ".yml", ".toml",
+    ".csv", ".jsonl",
+    ".py", ".ipynb", ".js", ".ts", ".go", ".rs",
+    ".ps1", ".bat", ".sh",
+}
 
 
 def _match_any(text, keywords):
@@ -21,6 +27,34 @@ def _is_excluded(path, rules):
     return False
 
 
+def _is_text_file(path, rules):
+    ext = Path(path).suffix.lower()
+    text_exts = set(rules.get("text_exts", []))
+    if text_exts:
+        return ext in text_exts
+    return ext in TEXT_EXTS
+
+
+def _match_content_keywords(path, rules):
+    if not _is_text_file(path, rules):
+        return False
+    try:
+        size = Path(path).stat().st_size
+    except OSError:
+        return False
+    max_bytes = int(rules.get("text_max_bytes", 2 * 1024 * 1024))
+    if size > max_bytes:
+        return False
+    keywords = rules.get("content_keywords") or rules.get("ai_keywords", [])
+    if not keywords:
+        return False
+    try:
+        text = Path(path).read_text(encoding="utf-8", errors="ignore").lower()
+    except OSError:
+        return False
+    return any(k in text for k in keywords)
+
+
 def _detect_family(text, families):
     for family, keywords in families.items():
         if _match_any(text, keywords):
@@ -28,7 +62,7 @@ def _detect_family(text, families):
     return None
 
 
-def classify_ai_path(path, rules):
+def classify_ai_path(path, rules, content_match=False):
     text = str(path).lower()
     ext = Path(path).suffix.lower()
     matched = []
@@ -59,7 +93,7 @@ def classify_ai_path(path, rules):
         matched.append("code_keywords")
         return "Code", None, matched
 
-    if _match_any(text, rules.get("ai_keywords", [])):
+    if _match_any(text, rules.get("ai_keywords", [])) or content_match:
         matched.append("ai_keywords")
         if ext in DOC_EXTS:
             return "Docs", None, matched
@@ -79,10 +113,13 @@ def build_plan(files, rules, root):
     for f in files:
         if _is_excluded(f, rules):
             continue
-        match = classify_ai_path(f, rules)
+        content_match = _match_content_keywords(f, rules)
+        match = classify_ai_path(f, rules, content_match=content_match)
         if not match:
             continue
         category, family, matched_rules = match
+        if content_match and "content_keywords" not in matched_rules:
+            matched_rules = list(matched_rules) + ["content_keywords"]
         size_bytes = 0
         try:
             size_bytes = Path(f).stat().st_size

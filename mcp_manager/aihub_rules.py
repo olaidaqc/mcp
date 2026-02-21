@@ -47,6 +47,19 @@ DEFAULT_RULES = {
     "dataset_keywords": ["dataset", "corpus", "bench", "benchmark", "eval", "training-data"],
     "doc_keywords": ["paper", "arxiv", "tutorial", "guide", "manual", "readme", "whitepaper"],
     "code_keywords": ["notebook", "demo", "example", "sample", "sdk", "api", "client", "server"],
+    "text_exts": [
+        ".txt", ".md", ".json", ".yaml", ".yml", ".toml",
+        ".csv", ".jsonl",
+        ".py", ".ipynb", ".js", ".ts", ".go", ".rs",
+        ".ps1", ".bat", ".sh",
+    ],
+    "text_max_bytes": 2 * 1024 * 1024,
+    "content_keywords": [
+        "llama", "qwen", "mistral", "mixtral", "gemma", "phi", "deepseek",
+        "gpt", "chatglm", "baichuan", "yi", "falcon",
+        "stable-diffusion", "sdxl", "diffusion", "lora", "embedding",
+        "tokenizer", "clip", "t2i", "whisper", "tts", "asr",
+    ],
     "model_families": {
         "Vision": ["sdxl", "stable-diffusion", "diffusion", "controlnet", "vae", "clip", "t2i"],
         "Audio": ["whisper", "tts", "asr", "audio"],

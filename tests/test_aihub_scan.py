@@ -15,6 +15,7 @@ def test_build_plan_classifies_model_and_doc(tmp_path=None):
     doc.write_text("x", encoding="utf-8")
     rules = {
         "core_exts": [".gguf"],
+        "keywords": ["llama"],
         "ai_keywords": ["llama"],
         "doc_keywords": [],
         "tool_keywords": [],
@@ -23,12 +24,48 @@ def test_build_plan_classifies_model_and_doc(tmp_path=None):
         "code_keywords": [],
         "exclude_exts": [],
         "exclude_paths": [],
+        "text_exts": [".txt", ".md", ".pdf"],
+        "text_max_bytes": 1024,
         "large_threshold_bytes": 1024,
     }
     plan = build_plan([model, doc], rules, tmp_path)
-    assert len(plan) == 2
     assert plan[0]["category"] == "Models"
     assert plan[1]["category"] == "Docs"
+
+
+def test_build_plan_uses_content_keywords(tmp_path=None):
+    import tempfile
+    if tmp_path is None:
+        tmp_path = Path(tempfile.mkdtemp())
+    doc = tmp_path / "notes.txt"
+    doc.write_text("This includes llama instructions.", encoding="utf-8")
+    rules = {
+        "core_exts": [],
+        "keywords": ["llama"],
+        "content_keywords": ["llama"],
+        "text_exts": [".txt"],
+        "text_max_bytes": 1024,
+    }
+    plan = build_plan([doc], rules, tmp_path)
+    assert len(plan) == 1
+    assert plan[0]["category"] == "Docs"
+
+
+def test_build_plan_skips_non_ai_files(tmp_path=None):
+    import tempfile
+    if tmp_path is None:
+        tmp_path = Path(tempfile.mkdtemp())
+    doc = tmp_path / "notes.txt"
+    doc.write_text("Just a grocery list.", encoding="utf-8")
+    rules = {
+        "core_exts": [],
+        "keywords": ["llama"],
+        "content_keywords": ["llama"],
+        "text_exts": [".txt"],
+        "text_max_bytes": 1024,
+    }
+    plan = build_plan([doc], rules, tmp_path)
+    assert plan == []
 
 
 def load_tests(loader, tests, pattern):
